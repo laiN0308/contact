@@ -1,5 +1,12 @@
 const firebaseConfig = {
   //   copy your firebase config informations
+   apiKey: "AIzaSyDWEQVLCW9e-OJOC28zMRX7ikmI1vc3OmM",
+    authDomain: "contactformular-160e5.firebaseapp.com",
+    databaseURL: "https://contactformular-160e5-default-rtdb.firebaseio.com",
+    projectId: "contactformular-160e5",
+    storageBucket: "contactformular-160e5.firebasestorage.app",
+    messagingSenderId: "440736421985",
+    appId: "1:440736421985:web:4ed4ef075fcd4f08393220"
 };
 
 // initialize firebase
