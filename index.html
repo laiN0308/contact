@@ -6,15 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact | Mon Site</title>
+    <script src="https://js.stripe.com/v3/"></script>
     <link rel="stylesheet" href="./styles.css">
-    <header>
-        <nav>
-            <a href="https://wa.me/+25777446399">WhatsApp</a>
-            <a href="sms.html">Envoyer un SMS</a>
-        </nav>
-    </header>
 </head>
 <body>
+
     <div class="container">
         <h1>Contactez-nous</h1>
         <form action="" id="contactForm">
@@ -37,9 +33,39 @@
             </div>
         </form>
     </div>
+    <button id="checkout">payer  en ligne</button>
+    <script>
+       var stripe = Stripe(
+        "pk_test_51QQ3CgCc3DTLRa5JWxGes0cUeaHYWJboMvctIrAhmQLGP1jRzmN5kVScXy3Xix7QVzgUKeHGSfEs8hrWbR2HkVuw00vsbWrFLW"
+       );
+       document.getElementById("checkout").addEventListener("click", function() {
+        stripe.redirectToCheckout({
+            lineItems: [  // Correction ici
+                {
+                    price: "price_1QSeqPCc3DTLRa5JrBtQC1Si",
+                    quantity: 1,
+                },
+            ],
+            mode: "subscription",
+            successUrl: "https://www.google.com/",
+            cancelUrl: "https://www.twitter.com/",  // Correction ici
+        })
+        .then(function(result) {
+            if (result.error) {
+                // Afficher l'erreur à l'utilisateur
+                console.error(result.error.message);
+            }
+        });
+       });
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
     <script src="./mail.js"></script>
 </body>
+<nav>
+    <a href="https://wa.me/+25777446399">WhatsApp</a>
+    <a href="sms.html">Envoyer un SMS</a>  
+    <a href="meteo.html">voir la meteo</a>
+</nav>
  <!-- Footer -->
  <footer>
     <p>&copy; 2024 Mon Site - Tous droits réservés.</p>
