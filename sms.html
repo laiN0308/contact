@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Messages | Firebase</title>
+    <link rel="stylesheet" href="./style sms.css">
+</head>
+<body>
+<div class="whatsapp-container">
+    <h2>Envoyer un SMS</h2>
+    <form id="smsForm">
+        <div class="form-group">
+            <label for="to">Numéro de destinataire (SMS):</label>
+            <input type="text" id="to" name="to" placeholder="+257XXXXXXX" required>
+        </div>
+        <div class="form-group">
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" placeholder="Votre message ici..." rows="5" required></textarea>
+        </div>
+        <button type="submit">Envoyer</button>
+        <p id="response" class="hidden"></p>
+    </form>
+    <a href="index.html">Retour au contact</a>
+</div>
+<script>
+    document.getElementById('smsForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const to = document.getElementById('to').value;
+        const message = document.getElementById('message').value;
+
+        // Vos informations Twilio
+        const accountSid = "AC328e49eb5a4a5c56281b4492f301530a"; 
+        const authToken = "742fcfb2734990f75774582e645f9671"; 
+        const twilioPhoneNumber = "+17755464169";
+
+        const url = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`;
+
+        // Création de l'objet FormData
+        const formData = new FormData();
+        formData.append('To', to);
+        formData.append('From', twilioPhoneNumber);
+        formData.append('Body', message);
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Basic ' + btoa(`${accountSid}:${authToken}`),
+                },
+                body: formData,
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                document.getElementById('response').classList.remove('hidden');
+                document.getElementById('response').innerText = "Message envoyé avec succès!";
+            } else {
+                throw new Error(result.message || "Une erreur s'est produite.");
+            }
+        } catch (error) {
+            document.getElementById('response').classList.remove('hidden');
+            document.getElementById('response').innerText = `Erreur: ${error.message}`;
+        }
+    });
+</script>
+</body>
+</html>
