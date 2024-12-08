@@ -58,6 +58,7 @@
             if (response.ok) {
                 document.getElementById('response').classList.remove('hidden');
                 document.getElementById('response').innerText = "Message envoyé avec succès!";
+                 document.getElementById("smsForm").reset();
             } else {
                 throw new Error(result.message || "Une erreur s'est produite.");
             }
